@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div ng-app="app2" ng-controller="CommentController as comControl">
+    <form>
+        <input type="text" ng-model="comControl.comment.content" placeholder="Content"><br />
+        <button ng-click="comControl.addComment(comControl.comment)">Add Comment</button>
+    </form>
+
+
+    <ul>
+        <li ng-repeat="com in comControl.comments">
+            {{com.content}} - {{com.id}}
+        </li>
+    </ul>
+</div>
+
+    <a href="/">Powrót</a>
+
+<script type="text/javascript" src="/bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="/js/com.js"></script>
+</body>
+</html>
