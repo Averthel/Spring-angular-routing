@@ -1,33 +1,35 @@
-angular.module('app', []).controller('ProductController', function($http) {
-    var vm = this;
-    function refreshData() {
-        $http({
-            method : 'GET',
-            url : 'api/products'
-        }).then(function success(response) {
-            vm.products = response.data;
-            console.log(vm.products);
-        }, function error(response) {
-            console.log('API error ' + response.status);
-        });
-    }
+angular.module('app', ['ngResource'])
+    .controller('ProductController', function($http, $resource) {
+        var vm = this;
+        var Product = $resource('api/products/:productId');
+        vm.product = new Product();
 
-    vm.addProduct = function(product) {
-        $http({
-            method : 'POST',
-            url : 'api/products',
-            data : product
-        }).then(function success(response) {
-            refreshData();
-            vm.product = {};
-        }, function error(response) {
-            console.log('Data not saved ' + product);
-        });
-    }
+        function refreshData() {
+            vm.products = Product.query(
+                function success(data, headers) {
+                    console.log('Pobrano dane: ' +  data);
+                    console.log(headers('Content-Type'));
+                },
+                function error(reponse) {
+                    console.log(response.status); //np. 404
+                });
+        }
 
-    vm.appName = 'Product Manager';
-    refreshData();
-});
+        vm.addProduct = function(product) {
+            console.log(vm.product.__proto__);
+            vm.product.$save(function(data) {
+                refreshData();
+                vm.product = new Product();
+            });
+        }
+
+        vm.loadData = function(id) {
+            vm.details = Product.get({productId: id});
+        }
+
+        vm.appName = 'Product Manager';
+        refreshData();
+    });
 
 
 

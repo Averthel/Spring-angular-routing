@@ -1,4 +1,5 @@
-angular.module('app2', []).controller('CommentController', function($http) {
+angular.module('app2', ['ngResource'])
+    .controller('CommentController', function($resource) {
     var vm = this;
     function refreshData() {
         $http({

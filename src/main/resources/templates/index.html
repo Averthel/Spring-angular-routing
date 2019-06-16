@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html >
+<html ng-app="app">
 <head>
     <meta charset="UTF-8"></meta>
     <title>Product Manager</title>
 </head>
-<body>
-<div ng-app="app"  ng-controller="ProductController as prodControl">
-    <h1>{{prodControl.appName}}</h1>
+<body ng-controller="ProductController as prodControl">
+<h1>{{prodControl.appName}}</h1>
 <form>
     <input type="text" ng-model="prodControl.product.name" placeholder="Name"><br>
     <input type="text" ng-model="prodControl.product.producer" placeholder="Producer"><br>
@@ -14,15 +13,18 @@
     <button ng-click="prodControl.addProduct(prodControl.product)">Add Product</button>
 </form>
 
-<div ng-repeat="prod in prodControl.products">
+
 <ul>
-    <li >
+    <li ng-repeat="prod in prodControl.products" ng-click="prodControl.loadData(prod.id)">
         {{prod.name}} - {{prod.producer}} ({{prod.kcal}} kcal)
     </li>
 </ul>
-</div>
 
-    <br /><br />
+
+<div ng-show="prodControl.details">
+    <h2>{{prodControl.details.name}}</h2>
+    <p>Producent: {{prodControl.details.producer}}, Kcal: {{prodControl.details.kcal}} </p>
+</div>
 
     <a href="comment">Dodaj Komentarz</a>
 
@@ -30,9 +32,9 @@
 
 
 
-<script type="text/javascript" src="/bower_components/angular/angular.js"></script>
-<script type="text/javascript" src="/js/app.js"></script>
-<script type="text/javascript" src="/js/com.js"></script>
+<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
 
 </body>
 </html>
